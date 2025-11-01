@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Orders</title>
+    <style>
+        table { width: 80%; margin: auto; border-collapse: collapse; margin-top:20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+        th { background: #f4f4f4; }
+        img { width: 80px; height: 80px; object-fit: cover; }
+        .grand-total { font-weight: bold; font-size: 1.2em; margin-top: 20px; text-align: right; width: 80%; margin-right: auto; }
+        .btn { padding: 8px 15px; border: none; border-radius: 5px; background: #4CAF50; color: white; cursor: pointer; margin-top:20px; display:block; margin-left:auto; margin-right:auto; }
+    </style>
+</head>
+<body>
+<h2 style="text-align:center;">Your Orders</h2>
+
+<table>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price/Unit</th>
+        <th>Quantity</th>
+        <th>Total Price</th>
+    </tr>
+    <tr th:each="item : ${cart}">
+        <td><img th:src="'data:image/jpeg;base64,' + ${item.flower.base64Image}"/></td>
+        <td th:text="${item.flower.name}"></td>
+        <td th:text="${item.flower.price}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.flower.price * item.quantity}"></td>
+    </tr>
+</table>
+
+<p class="grand-total">Grand Total: $<span th:text="${grandTotal}"></span></p>
+<button class="btn">Place Order</button>
+
+</body>
+</html>

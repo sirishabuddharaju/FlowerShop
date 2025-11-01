@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Flower</title>
+    <style>
+        body { font-family: Arial; background: #f9f9f9; text-align: center; }
+        form { margin: auto; width: 400px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px 20px; border: none; background: #2196f3; color: white; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+<h2>Edit Flower</h2>
+<form th:action="@{'/flowers/update/' + ${flower.id}}" th:object="${flower}" method="post" enctype="multipart/form-data">
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required/>
+    <label>Color:</label>
+    <input type="text" th:field="*{color}" required/>
+    <label>Description:</label>
+    <textarea th:field="*{description}"></textarea>
+    <label>Price:</label>
+    <input type="number" th:field="*{price}" required/>
+    <label>Stock:</label>
+    <input type="number" th:field="*{stock}" required/>
+    <label>Image:</label>
+    <input type="file" name="imageFile"/>
+    <button type="submit">Update Flower</button>
+</form>
+</body>
+</html>

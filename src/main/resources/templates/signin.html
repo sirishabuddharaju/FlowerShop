@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Sign In | Blooming Flower Shop</title>
+
+	<!-- Google Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Cormorant+Garamond:ital,wght@1,500&family=Lora:wght@400&display=swap"
+		rel="stylesheet">
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: "Poppins", sans-serif;
+		}
+
+		body {
+			height: 100vh;
+			width: 100%;
+			background: url('/images/index-background.jpg') no-repeat center center/cover;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			color: #fff;
+			position: relative;
+			padding: 0 60px;
+		}
+
+		body::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.55);
+			z-index: 0;
+		}
+
+		.welcome-section {
+			position: relative;
+			z-index: 1;
+			max-width: 45%;
+		}
+
+		.welcome-section h1 {
+			font-size: 3.5em;
+			color: #fff;
+			margin-bottom: 15px;
+			line-height: 1.3;
+			font-family: "Cormorant Garamond", serif;
+			text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
+		}
+
+		.welcome-section p {
+			font-family: "Lora", serif;
+			font-size: 1em;
+			color: #f5f5f5;
+			margin-top: 10px;
+			line-height: 1.5;
+			font-style: italic;
+			text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+		}
+
+		.highlight {
+			color: #ff80ab;
+			font-weight: 600;
+		}
+
+		.form-container {
+			position: relative;
+			z-index: 1;
+			background: rgba(255, 255, 255, 0.12);
+			backdrop-filter: blur(5px);
+			padding: 30px 40px;
+			border-radius: 15px;
+			max-width: 420px;
+			width: 85%;
+			color: #fff;
+			box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+		}
+
+		label {
+			display: block;
+			margin-top: 10px;
+			font-size: 0.9em;
+		}
+
+		.input-group {
+			position: relative;
+			margin-bottom: 12px;
+		}
+
+		input {
+			width: 100%;
+			padding: 10px 12px;
+			margin-top: 4px;
+			border: none;
+			border-radius: 6px;
+			font-size: 0.95em;
+			outline: none;
+			background-color: rgba(255, 255, 255, 0.9);
+			transition: 0.3s;
+		}
+
+		input:focus {
+		            box-shadow: 0 0 6px #ff94aa;
+		        }
+
+		        input.error {
+		            background-color: #ffe6e6;
+		            border: 1px solid #ff8080;
+		            color: #b30000;
+		        }
+
+		.error-message {
+			color: #ffb3b3;
+			            font-size: 0.8em;
+			            margin-top: 2px;
+			            font-style: italic;
+		}
+
+		
+
+		button {
+			width: 100%;
+			padding: 10px;
+			margin-top: 18px;
+			background-color: #ff4081;
+			border: none;
+			border-radius: 20px;
+			color: white;
+			font-size: 1em;
+			font-weight: 600;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+
+		button:hover {
+			transform: scale(1.05);
+			background-color: #e23670;
+		}
+
+		p {
+			text-align: left;
+			margin-top: 10px;
+			font-size: 0.9em;
+		}
+
+		a {
+			color: #ff80ab;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		.forgot-link {
+			display: block;
+			text-align: right;
+			font-size: 0.85em;
+			margin-top: 5px;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Left Welcome Text -->
+	<div class="welcome-section">
+		<h1>Sign-In To <br><span class="highlight">Blooming Flower Shop</span></h1>
+		<p> Sign in to manage your orders, explore
+			<span class="highlight">fresh flowers</span>,
+			and continue spreading smiles with our delightful floral collections 🌸
+		</p>
+	</div>
+
+	<!-- Right Login Form -->
+	<div class="form-container">
+		<form th:action="@{/signin}" th:object="${user}" method="post" id="signinForm" novalidate>
+
+			<!-- 🌸 Dynamic Error Banner -->
+			<div th:if="${loginError != null}" class="error-banner" th:text="${loginError}"></div>
+
+			<div class="input-group">
+				<label>Email:</label>
+				<input type="email" id="email" th:field="*{email}" placeholder="Enter your email">
+				<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></p>
+			</div>
+
+			<div class="input-group">
+				<label>Password:</label>
+				<input type="password" id="password" th:field="*{password}" placeholder="Enter your password">
+				<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></p>
+				<!-- 🌸 Forgot Password Link -->
+				<a href="/forgot-password" class="forgot-link">Forgot Password?</a>
+			</div>
+
+			<button type="submit" id="submitBtn">Sign In</button>
+		</form>
+		<p>Don’t have an account? <a href="/register">Register</a></p>
+	</div>
+
+	<script>
+		const form = document.getElementById('signinForm');
+
+		form.addEventListener('submit', function (e) {
+			let valid = true;
+			document.querySelectorAll('input').forEach(input => input.classList.remove('error'));
+
+			const email = document.getElementById('email');
+			const password = document.getElementById('password');
+
+			if (!email.value.trim()) {
+				email.classList.add('error');
+				valid = false;
+			}
+
+			if (!password.value.trim()) {
+				password.classList.add('error');
+				valid = false;
+			}
+
+			if (!valid) e.preventDefault();
+		});
+	</script>
+
+</body>
+
+</html>

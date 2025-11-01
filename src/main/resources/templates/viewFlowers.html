@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Flowers</title>
+    <style>
+        body { font-family: Arial; text-align: center; background: #fafafa; }
+        .card-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .card { width: 250px; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 15px; }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+        .btn { padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        .update { background: #2196f3; color: white; }
+        .delete { background: #f44336; color: white; }
+        .popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+        .popup-content { background: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .alert { margin: 15px auto; width: 50%; padding: 10px; border-radius: 5px; }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+
+<h2>🌸 Flower Catalog</h2>
+
+<!-- Success and Error Alerts -->
+<div th:if="${param.success}" class="alert alert-success" th:text="${param.success}"></div>
+<div th:if="${param.error}" class="alert alert-error" th:text="${param.error}"></div>
+
+<div class="card-container">
+    <div class="card" th:each="flowerObj : ${flowers}">
+        <img th:if="${flowerObj.base64Image}" th:src="'data:image/jpeg;base64,' + ${flowerObj.base64Image}" alt="Flower Image"/>
+        <h3 th:text="${flowerObj.flower.name}"></h3>
+        <p>Color: <span th:text="${flowerObj.flower.color}"></span></p>
+        <p>Price: ₹<span th:text="${flowerObj.flower.price}"></span></p>
+		<p>Stock: <span th:text="${flowerObj.flower.stock}">units</span></p>
+
+
+        <button class="btn update"
+                th:attr="onclick='window.location.href=\'/flowers/edit/' + ${flowerObj.flower.id} + '\''">
+            Update
+        </button>
+
+        <!-- ✅ FIXED DELETE BUTTON -->
+        <button class="btn delete"
+                th:attr="data-id=${flowerObj.flower.id}, data-name=${flowerObj.flower.name}"
+                onclick="openDeletePopup(this)">
+            Delete
+        </button>
+    </div>
+</div>
+
+<!-- Delete Confirmation Popup -->
+<div class="popup" id="deletePopup">
+    <div class="popup-content">
+        <p id="deleteMessage"></p>
+        <button class="btn delete" onclick="confirmDelete()">OK</button>
+        <button class="btn update" onclick="closePopup()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    let deleteId = null;
+
+    function openDeletePopup(button) {
+        deleteId = button.getAttribute('data-id');
+        const flowerName = button.getAttribute('data-name');
+        document.getElementById('deleteMessage').innerText = `Are you sure you want to delete "${flowerName}"?`;
+        document.getElementById('deletePopup').style.display = 'flex';
+    }
+
+    function confirmDelete() {
+        window.location.href = '/flowers/delete/' + deleteId;
+    }
+
+    function closePopup() {
+        document.getElementById('deletePopup').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
