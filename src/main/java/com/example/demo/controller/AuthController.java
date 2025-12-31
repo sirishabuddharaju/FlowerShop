@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -21,32 +22,32 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    // 🌸 Landing page
+    // index page
     @GetMapping("/")
     public String index() {
         return "index";
     }
 
-    // 👩‍💼 Admin Page
+    // Admin Page
     @GetMapping("/admin")
     public String adminPage() {
         return "adminpage";
     }
 
-    // 👩‍🦰 Customer Page
+    // Customer Page
     @GetMapping("/customer")
     public String customerPage() {
         return "customer";
     }
 
-    // 🌷 Register Form
+    //  Register Form
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
         return "register";
     }
 
-    // 🌷 Handle Registration
+    //  Handle Registration
     @PostMapping("/register")
     public String registerUser(
             @Valid @ModelAttribute("user") User user,
@@ -77,36 +78,41 @@ public class AuthController {
         return "register";
     }
 
-    // 🌸 Show Sign-in form
+    //  Show Sign-in form
     @GetMapping("/signin")
     public String showSignInForm(Model model) {
         model.addAttribute("user", new User());
         return "signin";
     }
 
-    // 🌸 Handle Sign-in
+    //  Handle Sign-in
     @PostMapping("/signin")
-    public String loginUser(@ModelAttribute("user") User user, Model model) {
+    public String loginUser(@ModelAttribute("user") User user, Model model, HttpSession session) {
+
         Optional<User> existingUser = userService.findByEmail(user.getEmail());
 
-        // 1️⃣ Email not found
         if (existingUser.isEmpty()) {
-            model.addAttribute("loginError", "❌ User not registered with this email.");
+            model.addAttribute("loginError", " User not registered with this email.");
             return "signin";
         }
 
-        // 2️⃣ Password mismatch
         User dbUser = existingUser.get();
+
         if (!dbUser.getPassword().equals(user.getPassword())) {
-            model.addAttribute("loginError", "⚠️ Incorrect password. Please try again.");
+            model.addAttribute("loginError", " Incorrect password. Please try again.");
             return "signin";
         }
 
-        // 3️⃣ Successful login
+        //SAVE USER IN SESSION 
+        session.setAttribute("loggedInUser", dbUser);
+        session.setAttribute("customerId", dbUser.getId());
+
+        // redirect to home or customer page
         return "redirect:/home";
     }
 
- // 🌼 Forgot Password Page
+
+ //  Forgot Password Page
     @GetMapping("/forgot-password")
     public String showForgotPasswordPage(Model model) {
         model.addAttribute("user", new User());
@@ -127,9 +133,42 @@ public class AuthController {
         return "redirect:/signin";
     }
 
-    // 🌺 Home page
+    //  Home page
     @GetMapping("/home")
     public String homePage() {
         return "home";
     }
+    
+
+    @GetMapping("/about")
+    public String aboutPage() {
+        return "about";
+    }
+
+    @GetMapping("/contact")
+    public String contactPage() {
+        return "contact";
+    }
+
+    @GetMapping("/our-story")
+    public String ourStoryPage() {
+        return "our-story";
+    }
+
+    @GetMapping("/faq")
+    public String faqPage() {
+        return "faq";
+    }
+
+    @GetMapping("gallery")
+    public String galleryPage() {
+        return "gallery";
+    }
+    
+    @GetMapping("/signout")
+    public String signout(HttpSession session) {
+        session.invalidate();        
+        return "signout"; 
+    }
+
 }

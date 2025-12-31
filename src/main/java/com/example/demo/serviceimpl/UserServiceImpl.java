@@ -17,19 +17,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // 🔹 Register User
+    // Register User
     @Override
     public void registerUser(User user) {
         userRepository.save(user);
     }
 
-    // 🔹 Login Check
+    //Login Check
     @Override
     public Optional<User> loginUser(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password);
     }
 
-    // 🔹 Check Duplicate Email
+    //Check Duplicate Email
     @Override
     public boolean emailExists(String email) {
         return userRepository.findByEmail(email).isPresent();
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         if (userOpt.isPresent()) {
             User existingUser = userOpt.get();
 
-            // ✅ Only update if the new data is not null
+            // Only update if the new data is not null
             if (newUserDetails.getName() != null && !newUserDetails.getName().isEmpty()) {
                 existingUser.setName(newUserDetails.getName());
             }

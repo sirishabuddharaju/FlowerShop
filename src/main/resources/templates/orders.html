@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>My Orders</title>
+    <title>Your Orders</title>
     <style>
-        table { width: 80%; margin: auto; border-collapse: collapse; margin-top:20px; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
-        th { background: #f4f4f4; }
-        img { width: 80px; height: 80px; object-fit: cover; }
-        .grand-total { font-weight: bold; font-size: 1.2em; margin-top: 20px; text-align: right; width: 80%; margin-right: auto; }
-        .btn { padding: 8px 15px; border: none; border-radius: 5px; background: #4CAF50; color: white; cursor: pointer; margin-top:20px; display:block; margin-left:auto; margin-right:auto; }
+        body { font-family: Arial; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th { background: #ff80ab; color: white; }
+        .status {
+            padding: 5px 10px;
+            border-radius: 6px;
+            color: white;
+        }
+        .Pending { background-color: #ff9800; }
+        .Completed { background-color: #4caf50; }
     </style>
 </head>
 <body>
-<h2 style="text-align:center;">Your Orders</h2>
 
-<table>
+<h1>Your Orders</h1>
+
+<table th:if="${orders != null and !orders.isEmpty()}">
+    <thead>
     <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Price/Unit</th>
-        <th>Quantity</th>
-        <th>Total Price</th>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Items Count</th>
+        <th>Status</th>
     </tr>
-    <tr th:each="item : ${cart}">
-        <td><img th:src="'data:image/jpeg;base64,' + ${item.flower.base64Image}"/></td>
-        <td th:text="${item.flower.name}"></td>
-        <td th:text="${item.flower.price}"></td>
-        <td th:text="${item.quantity}"></td>
-        <td th:text="${item.flower.price * item.quantity}"></td>
+    </thead>
+
+    <tbody>
+    <tr th:each="o : ${orders}">
+        <td th:text="${o.id}"></td>
+        <td th:text="${o.customer.name}"></td>
+        <td th:text="${o.items.size()}"></td>
+        <td>
+            <span th:text="${o.status}" th:class="${o.status}" class="status"></span>
+        </td>
     </tr>
+    </tbody>
 </table>
 
-<p class="grand-total">Grand Total: $<span th:text="${grandTotal}"></span></p>
-<button class="btn">Place Order</button>
+<div th:if="${orders == null or orders.isEmpty()}">
+    <h3>You have no orders yet.</h3>
+</div>
 
 </body>
 </html>

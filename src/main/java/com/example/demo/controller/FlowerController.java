@@ -27,13 +27,7 @@ public class FlowerController {
     @Autowired
     private FlowerService flowerService;
 
-    @GetMapping("/home")
-    public String homePage(Model model) {
-        // Fetch all flowers to display on home
-        model.addAttribute("flowers", flowerService.findAll());
-        return "home"; // Thymeleaf template: home.html
-    }
-
+   
     // Display all flowers as cards
     @GetMapping("/allFlowers")
     public String viewAllFlowers(Model model) {
@@ -74,7 +68,7 @@ public class FlowerController {
 
         flowerService.saveFlower(flower);
 
-        return "redirect:/flowers"; // Redirect to all flowers page
+        return "redirect:/flowers/allFlowers"; // Redirect to all flowers page
     }
 
     @GetMapping("/viewFlowers")
@@ -140,7 +134,7 @@ public class FlowerController {
         }
     }
 
-    // 🪻 Delete Flower
+    //  Delete Flower
     @GetMapping("/delete/{id}")
     public String deleteFlower(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {

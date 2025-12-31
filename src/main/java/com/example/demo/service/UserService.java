@@ -11,7 +11,7 @@ public interface UserService {
 
     boolean emailExists(String email);
     
-    Optional<User> findByEmail(String email);  // ✅ new method
+    Optional<User> findByEmail(String email);  
 
     public void updateUserDetails(String email, User newUserDetails);
 

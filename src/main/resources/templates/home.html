@@ -1,46 +1,202 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Flower Shop Home</title>
+    <title> Blossom Haven | Flower Shop</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        nav { background-color: #4CAF50; padding: 10px; color: white; display: flex; align-items: center; }
-        nav a { color: white; margin-right: 20px; text-decoration: none; font-weight: bold; }
-        nav a:hover { text-decoration: underline; }
-        .orders-icon { margin-left:auto; cursor:pointer; }
-        #ordersDropdown { display:none; position:absolute; top:50px; right:20px; background:white; border:1px solid #ccc; width:300px; padding:10px; }
-        #ordersDropdown ul { list-style:none; padding:0; margin:0; }
-        #ordersDropdown li { padding:5px 0; border-bottom:1px solid #eee; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5fff0, #e8ffe8);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #28a745;
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-left a {
+            color: white;
+            margin-right: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-left a:hover {
+            text-decoration: underline;
+            color: #e6ffe6;
+        }
+
+        .orders-icon {
+            width: 35px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            margin-right: 20px;
+        }
+
+        .orders-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .signout-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .signout-link:hover {
+            text-decoration: underline;
+            color: #e6ffe6;
+        }
+
+        /* Orders dropdown */
+        #ordersDropdown {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 40px;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            width: 320px;
+            padding: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        #ordersDropdown h4 {
+            margin: 0 0 10px 0;
+            color: #28a745;
+        }
+
+        #ordersDropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        #ordersDropdown li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        #ordersDropdown a {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #fff;
+            background: #28a745;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        #ordersDropdown a:hover {
+            background: #218838;
+        }
+
+        /* Main Content */
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .quote {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 40px;
+            max-width: 800px;
+            line-height: 1.4;
+        }
+
+        .shop-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 18px 60px;
+            border-radius: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 6px 20px rgba(40,167,69,0.4);
+        }
+
+        .shop-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #e8ffe8;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
+<!-- Navbar -->
 <nav>
-    <a href="/flowers/viewFlowers">All Flowers</a>
-    <a href="/flowers/add">Add New Flower</a>
-    <img src="/images/orders-icon.png" class="orders-icon" onclick="toggleOrdersDropdown()" title="View Orders"/>
-</nav>
+    <div class="nav-left">
+        <a href="/home">Home</a>       
+        <a href="/contact">Contact Info</a>
+        <a href="/about">About Us</a>
+        <a href="/our-story">Our Story</a>		
+        <a href="/faq">FAQs</a>		
+        <a href="/gallery">Gallery</a>
+    </div>
+    <div><a href="/signout" class="signout-link">Sign Out</a></div>
 
+
+<!-- Orders dropdown -->
 <div id="ordersDropdown">
-    <h4>Current Orders</h4>
+    <h4>Your Current Orders</h4>
     <ul>
         <li th:each="item : ${cart}">
-            <span th:text="${item.flower.name} + ' x ' + ${item.quantity}"></span> - $<span th:text="${item.flower.price * item.quantity}"></span>
+            <span th:text="${item.flower.name} + ' x ' + ${item.quantity}"></span> 
+            - $<span th:text="${item.flower.price * item.quantity}"></span>
         </li>
     </ul>
-    <p><strong>Grand Total:</strong> $<span th:text="${grandTotal}"></span></p>
-    <a href="/orders/view">Go to Orders</a>
+    <p><strong>Total:</strong> $<span th:text="${grandTotal}"></span></p>
+    <a href="/orders/view">View All Orders</a>
+</div>
+</nav>
+<!-- Content -->
+<div class="content">
+    <h2 class="quote">“Flowers don’t tell, they show — bringing love, peace, and joy to every heart.”</h2>
+    <a href="/flowers/allFlowers"><button class="shop-btn">Shop Now</button></a>
 </div>
 
-<div style="text-align:center; margin-top:50px;">
-    <h2>Welcome to the Flower Shop!</h2>
-</div>
+<footer>
+    © 2025 Blossom Haven — Crafted with love and nature 
+</footer>
 
-<script>
-function toggleOrdersDropdown() {
-    const dd = document.getElementById('ordersDropdown');
-    dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
-}
-</script>
+
 </body>
 </html>

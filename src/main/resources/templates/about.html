@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>About Us | Blossom Haven</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #f5fff0, #e8ffe8);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /*  Navbar (same as home.html) */
+    nav {
+      background-color: #28a745;
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav-left a {
+      color: white;
+      margin-right: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .nav-left a:hover {
+      text-decoration: underline;
+      color: #e6ffe6;
+    }
+
+    .signout-link {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .signout-link:hover {
+      text-decoration: underline;
+      color: #e6ffe6;
+    }
+
+    /*  About Section */
+    .about-section {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      padding: 50px 20px 40px 20px;
+    }
+
+    .about-section h2 {
+      color: #28a745;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .about-section p {
+      color: #444;
+      font-size: 16px;
+      max-width: 800px;
+      margin: 10px auto 40px auto;
+      line-height: 1.6;
+    }
+
+    /* Cards */
+    .cards-container {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      flex-wrap: wrap;
+      gap: 25px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+      width: 280px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .card h3 {
+      color: #28a745;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #555;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /*  Footer */
+    footer {
+      background-color: #e8ffe8;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    @media (max-width: 768px) {
+      .cards-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!--  Navbar -->
+<nav>
+  <div class="nav-left">
+    <a href="/home">Home</a>
+    <a href="/contact">Contact Info</a>
+    <a href="/about">About Us</a>
+    <a href="/our-story">Our Story</a>
+    <a href="/faq">FAQs</a>
+    <a href="/gallery">Gallery</a>
+  </div>
+  <div><a href="/signout" class="signout-link">Sign Out</a></div>
+</nav>
+
+<!--  About Section -->
+<section class="about-section">
+  <h2>About Blossom Haven</h2>
+  <p>
+    At Blossom Haven, we believe flowers speak the language of the heart.
+    What began as a small family passion has grown into a trusted name for elegant floral designs and heartfelt gifts.
+    Each bouquet we craft is infused with love, freshness, and creativity — perfect for every occasion.
+  </p>
+
+  <div class="cards-container">
+    <div class="card">
+      <h3> Anaya Sharma</h3>
+      <p>Founder & Creative Director<br>
+      The visionary behind Blossom Haven, Anaya ensures each design reflects grace and warmth.</p>
+    </div>
+
+    <div class="card">
+      <h3> Rohan Patel</h3>
+      <p>Lead Florist<br>
+      Known for his artistic arrangements and love for nature, Rohan transforms ideas into blooming art.</p>
+    </div>
+
+    <div class="card">
+      <h3> Meera Singh</h3>
+      <p>Customer Experience Manager<br>
+      Meera ensures every Blossom Haven moment is memorable — from order to doorstep delivery.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 Blossom Haven — Crafted with love and nature 
+</footer>
+
+
+
+</body>
+</html>

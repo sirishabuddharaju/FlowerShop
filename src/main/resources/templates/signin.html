@@ -168,10 +168,10 @@
 <body>
 	<!-- Left Welcome Text -->
 	<div class="welcome-section">
-		<h1>Sign-In To <br><span class="highlight">Blooming Flower Shop</span></h1>
+		<h1>Sign-In To <br><span class="highlight">Blossom Haven Flower Shop</span></h1>
 		<p> Sign in to manage your orders, explore
 			<span class="highlight">fresh flowers</span>,
-			and continue spreading smiles with our delightful floral collections 🌸
+			and continue spreading smiles with our delightful floral collections 
 		</p>
 	</div>
 
@@ -179,7 +179,7 @@
 	<div class="form-container">
 		<form th:action="@{/signin}" th:object="${user}" method="post" id="signinForm" novalidate>
 
-			<!-- 🌸 Dynamic Error Banner -->
+			<!-- Dynamic Error Banner -->
 			<div th:if="${loginError != null}" class="error-banner" th:text="${loginError}"></div>
 
 			<div class="input-group">
@@ -192,7 +192,7 @@
 				<label>Password:</label>
 				<input type="password" id="password" th:field="*{password}" placeholder="Enter your password">
 				<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></p>
-				<!-- 🌸 Forgot Password Link -->
+				<!--  Forgot Password Link -->
 				<a href="/forgot-password" class="forgot-link">Forgot Password?</a>
 			</div>
 

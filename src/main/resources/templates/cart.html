@@ -1,0 +1,27 @@
+<table th:if="${cart != null and !#lists.isEmpty(cart)}">
+    <thead>
+        <tr>
+            <th>Flower</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item : ${cart}">
+            <td th:text="${item.flower.name}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td th:text="${item.flower.price}"></td>
+            <td th:text="${item.totalPrice}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div th:if="${cart == null or #lists.isEmpty(cart)}">
+    <h3>Your cart is empty.</h3>
+</div>
+
+<form th:action="@{/cart/checkout}" method="get" 
+      th:if="${cart != null and !#lists.isEmpty(cart)}">
+    <button class="place-order" type="submit">Place Order</button>
+</form>
